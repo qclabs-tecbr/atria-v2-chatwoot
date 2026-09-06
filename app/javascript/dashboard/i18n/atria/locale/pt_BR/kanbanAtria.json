@@ -4,8 +4,27 @@
   },
   "KANBAN_ATRIA": {
     "TITLE": "Kanban",
+    "PRIORITY": {
+      "LOW": "Baixa",
+      "MEDIUM": "Média",
+      "HIGH": "Alta",
+      "URGENT": "Urgente"
+    },
     "EMPTY": {
-      "SKELETON": "Quadro em construção — o board entra aqui."
+      "BOARD": "Nenhum quadro configurado para esta clínica.",
+      "COLUMN": "Nenhum paciente nesta etapa.",
+      "BEYOND_PAGE": "{count} nesta etapa, ainda não carregados."
+    },
+    "ERROR": {
+      "BOARD_LOAD_FAILED": "Não foi possível carregar o quadro.",
+      "RETRY": "Tentar de novo",
+      "REASON": {
+        "AGENTS_URL_NOT_CONFIGURED": "O endereço do motor Atria não está configurado nesta instalação.",
+        "MISSING_CREDENTIALS": "Sua sessão do Chatwoot não trouxe as credenciais necessárias.",
+        "UNKNOWN_ACCOUNT": "Esta conta do Chatwoot não está ligada a nenhuma clínica na Atria.",
+        "ACCOUNT_NOT_IN_PROFILE": "Você não tem acesso a esta conta.",
+        "NO_ATRIA_USER": "Seu usuário do Chatwoot ainda não tem um usuário correspondente na Atria."
+      }
     }
   }
 }

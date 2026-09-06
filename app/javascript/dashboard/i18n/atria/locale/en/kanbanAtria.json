@@ -4,8 +4,27 @@
   },
   "KANBAN_ATRIA": {
     "TITLE": "Kanban",
+    "PRIORITY": {
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
     "EMPTY": {
-      "SKELETON": "Board under construction — the board lands here."
+      "BOARD": "No board configured for this clinic.",
+      "COLUMN": "No patients in this step.",
+      "BEYOND_PAGE": "{count} in this step, not loaded yet."
+    },
+    "ERROR": {
+      "BOARD_LOAD_FAILED": "Could not load the board.",
+      "RETRY": "Try again",
+      "REASON": {
+        "AGENTS_URL_NOT_CONFIGURED": "The Atria engine address is not configured on this installation.",
+        "MISSING_CREDENTIALS": "Your Chatwoot session did not carry the required credentials.",
+        "UNKNOWN_ACCOUNT": "This Chatwoot account is not linked to any clinic in Atria.",
+        "ACCOUNT_NOT_IN_PROFILE": "You do not have access to this account.",
+        "NO_ATRIA_USER": "Your Chatwoot user does not have a matching Atria user yet."
+      }
     }
   }
 }
