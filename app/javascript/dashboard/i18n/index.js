@@ -1,4 +1,6 @@
 import { withForkMessages } from './fazer-ai';
+// ATRIA: nossa camada de tradução, aplicada por último (ver ./atria/index.js).
+import { withAtriaMessages } from './atria';
 import ar from './locale/ar';
 import bg from './locale/bg';
 import ca from './locale/ca';
@@ -43,7 +45,7 @@ import zh_TW from './locale/zh_TW';
 import is from './locale/is';
 import lt from './locale/lt';
 
-export default withForkMessages({
+const messages = withForkMessages({
   ar,
   bg,
   ca,
@@ -88,3 +90,5 @@ export default withForkMessages({
   is,
   lt,
 });
+
+export default withAtriaMessages(messages);

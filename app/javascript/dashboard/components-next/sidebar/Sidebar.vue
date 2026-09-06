@@ -7,6 +7,9 @@ import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+// ATRIA: esconde o Kanban pago e acrescenta o nosso. Toda a lógica mora em
+// dashboard/atria/sidebarMenu.js — não editar o array de itens abaixo.
+import { applyAtriaMenu } from 'dashboard/atria/sidebarMenu';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -990,7 +993,7 @@ const menuItems = computed(() => {
     });
   }
 
-  return items;
+  return applyAtriaMenu(items, t);
 });
 </script>
 

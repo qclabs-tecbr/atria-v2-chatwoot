@@ -1,0 +1,11 @@
+{
+  "SIDEBAR": {
+    "KANBAN_ATRIA": "Kanban"
+  },
+  "KANBAN_ATRIA": {
+    "TITLE": "Kanban",
+    "EMPTY": {
+      "SKELETON": "Board under construction — the board lands here."
+    }
+  }
+}
