@@ -8,6 +8,8 @@ const props = defineProps({
   card: { type: Object, required: true },
 });
 
+defineEmits(['open']);
+
 const { t } = useI18n();
 
 // Hues dentro do `validator` do Label.vue (kanban-ui.md §8.4).
@@ -49,7 +51,12 @@ const dueDate = computed(() => {
 
 <template>
   <article
-    class="flex flex-col gap-2 p-3 border rounded-lg bg-n-solid-1 border-n-weak"
+    class="flex flex-col gap-2 p-3 text-left border rounded-lg cursor-pointer bg-n-solid-1 border-n-weak hover:border-n-strong"
+    role="button"
+    tabindex="0"
+    @click="$emit('open', card.id)"
+    @keydown.enter="$emit('open', card.id)"
+    @keydown.space.prevent="$emit('open', card.id)"
   >
     <h3 class="text-sm font-medium truncate text-n-slate-12">
       {{ patientName }}

@@ -14,6 +14,8 @@ const props = defineProps({
   emptyKind: { type: String, default: null },
 });
 
+defineEmits(['openCard']);
+
 const { t } = useI18n();
 
 const colors = computed(() => stepColorClasses(props.step.color));
@@ -46,7 +48,12 @@ const terminalGlyph = computed(() => {
     </header>
 
     <div class="flex flex-col gap-2 px-2 pb-2 overflow-y-auto">
-      <KanbanCard v-for="card in cards" :key="card.id" :card="card" />
+      <KanbanCard
+        v-for="card in cards"
+        :key="card.id"
+        :card="card"
+        @open="$emit('openCard', $event)"
+      />
 
       <p
         v-if="emptyKind === 'empty'"

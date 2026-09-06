@@ -6,12 +6,15 @@
  * API/tools. A tela existe pra ver as etapas, ver onde cada cartão está e
  * abrir o cartão (Fábio, #plano msg 1530). Não há mover.
  */
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useKanbanBoards } from 'dashboard/atria/composables/useKanbanBoards';
 import KanbanBoard from 'dashboard/atria/components/KanbanBoard.vue';
+import KanbanCardDetail from 'dashboard/atria/components/KanbanCardDetail.vue';
+import { useKanbanCard } from 'dashboard/atria/composables/useKanbanCard';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -25,9 +28,21 @@ const kanban = useKanbanBoards({
   accountId: () => route.params.accountId ?? null,
 });
 
+const detail = useKanbanCard({
+  token: () => currentUser.value?.access_token ?? null,
+  accountId: () => route.params.accountId ?? null,
+});
+
+const dialogRef = ref(null);
+
 const isLoading = computed(
   () => kanban.isLoadingBoards.value || kanban.isLoadingCards.value
 );
+
+const openCard = async cardId => {
+  dialogRef.value?.open();
+  await detail.open(cardId);
+};
 
 onMounted(kanban.load);
 </script>
@@ -59,6 +74,24 @@ onMounted(kanban.load);
       :error="kanban.error.value"
       @select-board="kanban.selectBoard"
       @retry="kanban.load"
+      @open-card="openCard"
     />
+
+    <Dialog
+      ref="dialogRef"
+      :title="t('KANBAN_ATRIA.CARD.TITLE')"
+      :show-cancel-button="false"
+      :show-confirm-button="false"
+      @close="detail.close"
+    >
+      <KanbanCardDetail
+        :card="detail.card.value"
+        :steps="kanban.steps.value"
+        :account-id="route.params.accountId"
+        :is-loading="detail.isLoading.value"
+        :error="detail.error.value"
+      />
+      <template #footer />
+    </Dialog>
   </section>
 </template>

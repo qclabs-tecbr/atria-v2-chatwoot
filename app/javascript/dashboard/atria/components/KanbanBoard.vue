@@ -20,7 +20,7 @@ const props = defineProps({
   error: { type: Object, default: null },
 });
 
-defineEmits(['selectBoard', 'retry']);
+defineEmits(['selectBoard', 'retry', 'openCard']);
 
 const { t } = useI18n();
 
@@ -119,6 +119,7 @@ const reasonText = computed(() => {
         :cards="cardsByStep[step.id] || []"
         :count="countsByStep[step.id] || 0"
         :empty-kind="stepEmptyKind(step.id)"
+        @open-card="$emit('openCard', $event)"
       />
     </div>
   </div>

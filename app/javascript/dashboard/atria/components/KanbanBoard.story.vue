@@ -8,6 +8,7 @@
  * pra ver em teste unitário nem em `curl`.
  */
 import KanbanBoard from './KanbanBoard.vue';
+import KanbanCardDetail from './KanbanCardDetail.vue';
 
 // Hexes de docs/KANBAN-DESIGN.md §2, exatamente como o servidor os manda.
 const atendimento = [
@@ -85,6 +86,37 @@ const boards = [
 ];
 
 const emptyKind = id => (cardsByStep[id]?.length ? null : 'empty');
+
+const detailCard = {
+  id: 'a',
+  title: 'Ana Souza',
+  description:
+    'Queixa: dor lombar há 3 semanas.\nJá fez fisioterapia em 2025, sem melhora.',
+  priority: 'high',
+  dueDate: '2026-09-10T14:00:00.000Z',
+  chatwootConversationId: 42,
+  contact: { id: '1', name: 'Ana Souza', phone: '+55 11 90000-0000' },
+  transitions: [
+    {
+      id: 't1',
+      fromStepId: null,
+      toStepId: '1',
+      performedBy: 'agent:beatriz',
+      performedByLabel: 'Beatriz',
+      reason: null,
+      createdAt: '2026-09-04T09:12:00.000Z',
+    },
+    {
+      id: 't2',
+      fromStepId: '1',
+      toStepId: '3',
+      performedBy: 'user:3',
+      performedByLabel: 'Amanda',
+      reason: 'Paciente ligou pedindo quinta de manhã.',
+      createdAt: '2026-09-05T16:40:00.000Z',
+    },
+  ],
+};
 const noop = () => {};
 </script>
 
@@ -134,6 +166,31 @@ const noop = () => {};
           :steps="atendimento"
           :error="{ reason: 'no_atria_user' }"
           @retry="noop"
+        />
+      </div>
+    </Variant>
+
+    <Variant title="Cartão aberto (notas, anexos, histórico)">
+      <div class="max-w-lg p-4 bg-n-surface-1">
+        <KanbanCardDetail
+          :card="detailCard"
+          :steps="atendimento"
+          account-id="7"
+        />
+      </div>
+    </Variant>
+
+    <Variant title="Cartão sem conversa (sem anexos)">
+      <div class="max-w-lg p-4 bg-n-surface-1">
+        <KanbanCardDetail
+          :card="{
+            ...detailCard,
+            chatwootConversationId: null,
+            description: null,
+            transitions: [],
+          }"
+          :steps="atendimento"
+          account-id="7"
         />
       </div>
     </Variant>

@@ -25,6 +25,23 @@
         "ACCOUNT_NOT_IN_PROFILE": "You do not have access to this account.",
         "NO_ATRIA_USER": "Your Chatwoot user does not have a matching Atria user yet."
       }
+    },
+    "CARD": {
+      "LOADING": "Loading card…",
+      "LOAD_FAILED": "Could not load this card.",
+      "PHONE": "Phone",
+      "DUE_DATE": "Date",
+      "NOTES": "Notes",
+      "NO_NOTES": "No notes on this card.",
+      "ATTACHMENTS": "Attachments",
+      "OPEN_CONVERSATION": "Open the conversation in Chatwoot",
+      "NO_CONVERSATION": "This card is not linked to a conversation, so there are no attachments.",
+      "HISTORY": "History",
+      "NO_HISTORY": "This card has not changed step yet.",
+      "BY_AGENT": "Digital secretary",
+      "BY_USER": "Team member",
+      "BY_SYSTEM": "Automation",
+      "TITLE": "Patient card"
     }
   }
 }

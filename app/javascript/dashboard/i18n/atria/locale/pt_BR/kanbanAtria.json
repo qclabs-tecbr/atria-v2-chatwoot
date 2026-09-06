@@ -25,6 +25,23 @@
         "ACCOUNT_NOT_IN_PROFILE": "Você não tem acesso a esta conta.",
         "NO_ATRIA_USER": "Seu usuário do Chatwoot ainda não tem um usuário correspondente na Atria."
       }
+    },
+    "CARD": {
+      "LOADING": "Carregando cartão…",
+      "LOAD_FAILED": "Não foi possível carregar este cartão.",
+      "PHONE": "Telefone",
+      "DUE_DATE": "Data",
+      "NOTES": "Notas",
+      "NO_NOTES": "Sem notas neste cartão.",
+      "ATTACHMENTS": "Anexos",
+      "OPEN_CONVERSATION": "Abrir a conversa no Chatwoot",
+      "NO_CONVERSATION": "Este cartão não está ligado a nenhuma conversa, então não há anexos.",
+      "HISTORY": "Histórico",
+      "NO_HISTORY": "Este cartão ainda não mudou de etapa.",
+      "BY_AGENT": "Secretária digital",
+      "BY_USER": "Pessoa da equipe",
+      "BY_SYSTEM": "Automação",
+      "TITLE": "Cartão do paciente"
     }
   }
 }
