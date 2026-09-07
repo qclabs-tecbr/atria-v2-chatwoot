@@ -5,7 +5,7 @@
  * Regerar: `pnpm atria:types` (ver scripts/generate-api-types.mjs).
  *
  * Rotas geradas: 5 (de 159 no spec)
- * Rotas do Kanban sem tipo de sucesso neste snapshot: 4
+ * Rotas do Kanban sem tipo de sucesso neste snapshot: 0
  */
 
 export interface paths {
@@ -172,6 +172,30 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The tenant's boards with their steps, ordered. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        currency: string;
+                        description: string | null;
+                        id: string;
+                        name: string;
+                        order: number;
+                        steps: {
+                            cancelled: boolean;
+                            color: string;
+                            completed: boolean;
+                            id: string;
+                            name: string;
+                            position: number;
+                            probability: number;
+                        }[];
+                    }[];
+                };
+            };
             /** @description Unauthorized — missing or invalid credentials. */
             401: {
                 headers: {
@@ -206,6 +230,39 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description One page of cards plus the unfiltered per-step counts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        cards: {
+                            boardId: string;
+                            chatwootConversationId: number | null;
+                            contact: {
+                                id: string;
+                                name: string | null;
+                                phone: string | null;
+                            } | null;
+                            contactId: string;
+                            conversationId: string | null;
+                            createdAt: string;
+                            description: string | null;
+                            dueDate: string | null;
+                            id: string;
+                            priority: string | null;
+                            stepChangedAt: string | null;
+                            stepId: string;
+                            title: string;
+                            updatedAt: string;
+                            value: number | null;
+                        }[];
+                        countsByStep: Record<string, never>;
+                        nextCursor: string | null;
+                    };
+                };
+            };
             /** @description Bad request — validation failed or the input was malformed. */
             400: {
                 headers: {
@@ -247,6 +304,44 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description A card with its full transition trail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        boardId: string;
+                        chatwootConversationId: number | null;
+                        contact: {
+                            id: string;
+                            name: string | null;
+                            phone: string | null;
+                        } | null;
+                        contactId: string;
+                        conversationId: string | null;
+                        createdAt: string;
+                        description: string | null;
+                        dueDate: string | null;
+                        id: string;
+                        priority: string | null;
+                        stepChangedAt: string | null;
+                        stepId: string;
+                        title: string;
+                        transitions: {
+                            createdAt: string;
+                            fromStepId: string | null;
+                            id: string;
+                            performedBy: string | null;
+                            performedByLabel: string | null;
+                            reason: string | null;
+                            toStepId: string;
+                        }[];
+                        updatedAt: string;
+                        value: number | null;
+                    };
+                };
+            };
             /** @description Bad request — validation failed or the input was malformed. */
             400: {
                 headers: {
@@ -326,6 +421,35 @@ export interface operations {
             };
         };
         responses: {
+            /** @description The card as it stands after the move. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        boardId: string;
+                        chatwootConversationId: number | null;
+                        contact: {
+                            id: string;
+                            name: string | null;
+                            phone: string | null;
+                        } | null;
+                        contactId: string;
+                        conversationId: string | null;
+                        createdAt: string;
+                        description: string | null;
+                        dueDate: string | null;
+                        id: string;
+                        priority: string | null;
+                        stepChangedAt: string | null;
+                        stepId: string;
+                        title: string;
+                        updatedAt: string;
+                        value: number | null;
+                    };
+                };
+            };
             /** @description Bad request — validation failed or the input was malformed. */
             400: {
                 headers: {

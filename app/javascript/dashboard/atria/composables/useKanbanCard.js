@@ -11,7 +11,7 @@ import { fetchKanbanCardDetail } from '../api/agentsApi';
  * @param {object} [deps]
  * @param {() => string|null} [deps.token] `currentUser.access_token` do Chatwoot
  * @param {() => number|string|null} [deps.accountId] conta aberta no Chatwoot
- * @param {(p: any) => Promise<any>} [deps.loadCard] troca a carga do cartão no teste
+ * @param {(p: any) => Promise<import('../types/atriaApi').KanbanCardDetail>} [deps.loadCard] troca a carga do cartão no teste
  */
 export function useKanbanCard({
   token,

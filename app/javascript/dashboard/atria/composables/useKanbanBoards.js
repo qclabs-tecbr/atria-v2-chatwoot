@@ -11,8 +11,14 @@ import { fetchKanbanBoards, fetchKanbanCards } from '../api/agentsApi';
  * @param {object} [deps] injetáveis para teste — em produção vêm do componente.
  * @param {() => string|null} [deps.token] `currentUser.access_token` do Chatwoot
  * @param {() => number|string|null} [deps.accountId] conta aberta no Chatwoot
- * @param {(p: any) => Promise<any>} [deps.loadBoards] troca a carga dos quadros no teste
- * @param {(p: any) => Promise<any>} [deps.loadCards] troca a carga dos cartões no teste
+ * @param {(p: any) => Promise<import('../types/atriaApi').KanbanBoard[]>} [deps.loadBoards] troca a carga dos quadros no teste
+ * @param {(p: any) => Promise<import('../types/atriaApi').KanbanCardsPage>} [deps.loadCards] troca a carga dos cartões no teste
+ *
+ * NOTA: o retorno destes dois é tipado de propósito, e não `Promise<any>`. É
+ * por aqui que a forma do payload entra no composable — com `any` o tipo do
+ * `ref` não morde (`any` é atribuível a tudo), e um campo inexistente passa
+ * batido mesmo com os `ref` anotados. Medido: com `Promise<any>` a mutação
+ * `a.campoQueNaoExiste` passava; com o tipo real, falha.
  *
  * NOTA: o JSDoc antigo documentava só `token`/`accountId` e omitia os dois
  * `load*`, que os testes injetam desde sempre. Não era detalhe de estilo — a
@@ -29,7 +35,7 @@ export function useKanbanBoards({
   const boards = ref([]);
   /** @type {import('vue').Ref<string|number|null>} */
   const activeBoardId = ref(null);
-  /** @type {import('vue').Ref<any[]>} */
+  /** @type {import('vue').Ref<import('../types/atriaApi').KanbanCard[]>} */
   const cards = ref([]);
   // Sempre do servidor: uma coluna com zero cartão na página atual pode ter
   // cartão adiante, e contar o que chegou mentiria (docs/kanban-ui.md §5).

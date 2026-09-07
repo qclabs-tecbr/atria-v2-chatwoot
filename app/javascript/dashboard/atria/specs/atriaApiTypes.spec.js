@@ -60,25 +60,21 @@ describe('tipos gerados da API do agents', () => {
     expect(bloco).toMatch(/\n\s{12}200: \{/);
   });
 
-  it.fails(
-    '[4.5:11a] PENDENTE — as 4 rotas do Kanban ainda não declaram 200. ' +
-      'Este teste é `it.fails`: ele fica VERDE enquanto a lacuna existe e vira ' +
-      'VERMELHO no dia em que o contrato entrar. Vermelho aqui é boa notícia — ' +
-      'tire o `.fails`, rode `pnpm atria:types` e troque os `any` marcados em ' +
-      'types/atriaApi.d.ts pelos tipos reais.',
-    () => {
-      const semSucesso = OPERACOES_KANBAN.filter(nome => {
-        const bloco = blocoDaOperacao(fonte, nome);
-        return !bloco || !/\n\s{12}200: \{/.test(bloco);
-      });
-      expect(
-        semSucesso,
-        `sem resposta 200 no spec: ${semSucesso.join(', ')}. ` +
-          'Enquanto isso, o client tipa o corpo dessas rotas como nada. ' +
-          'Corrigir em services/agents/src/api/v1/kanban.controller.ts ' +
-          '(response: { 200: ... }), regerar com `pnpm atria:types` e trocar ' +
-          'os `any` marcados em types/atriaApi.d.ts.'
-      ).toEqual([]);
-    }
-  );
+  it('as 4 rotas do Kanban declaram resposta 200', () => {
+    // Era `it.fails` enquanto o [4.5:11a] não existia. Virou teste normal
+    // quando o contrato entrou (dev-sr, squad/dev-sr@48c1b01) — e continua
+    // aqui porque é o que impede o sucesso de sumir do spec sem ninguém ver:
+    // se sumir, os apelidos de types/atriaApi.d.ts viram `never` e a checagem
+    // de payload some em silêncio, que é o estado de onde este job partiu.
+    const semSucesso = OPERACOES_KANBAN.filter(nome => {
+      const bloco = blocoDaOperacao(fonte, nome);
+      return !bloco || !/\n\s{12}200: \{/.test(bloco);
+    });
+    expect(
+      semSucesso,
+      `sem resposta 200 no spec: ${semSucesso.join(', ')}. ` +
+        'Corrigir em services/agents/src/api/v1/kanban.controller.ts ' +
+        '(response: { 200: ... }) e regerar com `pnpm atria:types`.'
+    ).toEqual([]);
+  });
 });

@@ -34,27 +34,41 @@ conferir nada. Ou seja: sem o `pnpm atria:typecheck`, tipo aqui dentro seria
 decoração. É o comando que faz o tipo valer alguma coisa — não o sufixo do
 arquivo.
 
-## O que ainda não está tipado, e por quê
+## O que está tipado
 
-As 4 rotas do Kanban **não declaram resposta 2xx** no `openapi.json`, então o
-corpo de sucesso delas não existe nos tipos gerados.
+As 4 rotas do Kanban **declaram resposta 200** desde o `[4.5:11a]` (dev-sr), então
+o corpo de sucesso delas existe nos tipos gerados e `types/atriaApi.d.ts` só faz
+apelido em cima — `KanbanBoard`, `KanbanStep`, `KanbanCard`, `KanbanCardsPage`,
+`KanbanCardDetail`. **Nada é escrito à mão:** se a forma mudar no servidor,
+`pnpm atria:types` muda o arquivo junto e `pnpm atria:types:check` acusa quem
+esqueceu de regerar.
 
-Isso **não é descuido no Kanban**: 198 das 207 operações do spec são assim. O
-padrão do repositório `agents` é `response: errors(...)`, e o sucesso é inferido
-pelo **Eden treaty** — que só funciona para um cliente TypeScript importando o
-app Elysia. O fork é Rails/JS e lê o `openapi.json`, onde o que não foi
-declarado simplesmente não existe.
+Isso precisou de decisão e não foi conserto de esquecimento: **198 das 207
+operações do spec continuam sem 2xx**, porque o padrão do repo `agents` é
+`response: errors(...)` e o sucesso é inferido pelo Eden treaty (que serve a um
+cliente TypeScript importando o app Elysia — não é o nosso caso). As 4 do Kanban
+são exceção deliberada, autorizada pelo planner.
 
-Enquanto isso, `types/atriaApi.d.ts` tem `any` **marcado com `TODO [4.5:11a]`**.
-Não escrevemos as formas à mão de propósito: seria uma segunda fonte de verdade
-para um dado de que o servidor já é dono, e ela divergiria em silêncio.
+### O detalhe que faz o tipo morder
 
-`specs/atriaApiTypes.spec.js` guarda isso. Quando o `[4.5:11a]` entrar, aquele
-teste vira **vermelho** — e vermelho ali é boa notícia: significa regerar e
-trocar os `any` pelos tipos reais.
+Os injetáveis `loadBoards`/`loadCards`/`loadCard` dos composables são tipados com
+o retorno real, **não** `Promise<any>`. Isso não é capricho: é por eles que a
+forma do payload entra. Medido — com `Promise<any>`, anotar o `ref` não adianta
+(`any` é atribuível a tudo) e um campo inexistente passa batido; com o tipo real,
+falha.
+
+Prova, se alguém quiser repetir: troque `a.order` por `a.campoQueNaoExiste` em
+`useKanbanBoards.js` e rode `pnpm atria:typecheck`. Tem que dar `TS2339`.
+Idem `card.value.chatwootConversationIdd` → `TS2551`, com o `Did you mean` — que
+é exatamente o par `conversationId` × `chatwootConversationId` que abriria a
+conversa de outro paciente sem erro nenhum.
 
 ## Limite declarado
 
 O elo **spec → fork** não tem CI automático, porque o CI do fork não alcança o
 repositório privado do `agents`. `pnpm atria:types:check` é rodado à mão por
 quem mexe no contrato. Isso é limitação conhecida, não descuido.
+
+Os `.vue` **não** são checados: `tsc` não lê SFC, e cobrir exigiria `vue-tsc` —
+outra dependência, outra decisão. A camada de dados está coberta; os
+componentes não.
