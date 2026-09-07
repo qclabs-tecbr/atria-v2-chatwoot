@@ -1,0 +1,43 @@
+{
+  // ATRIA — checagem de tipo da camada de dados do Kanban. NÃO É CONFIG DO UPSTREAM.
+  //
+  // Vive DENTRO de `dashboard/atria/` de propósito, e não na raiz do repositório.
+  // O fork precisa continuar rebaseável contra o Chatwoot upstream: config na
+  // raiz (`tsconfig.json`, `.eslintrc`, `vite.config`) é arquivo que o upstream
+  // também mexe, e conflito de config é onde guarda some sem ninguém ver
+  // (`docs/acervo/1-DIVERGENCIAS` já lista 16 arquivos upstream divergentes).
+  // Este arquivo é novo, é nosso, e o upstream não tem como colidir com ele.
+  //
+  // Rodar: `pnpm atria:typecheck` (nunca `tsc` solto — sem `-p` ele procura
+  // config na raiz, que não existe, e "passa" sem checar nada).
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+
+    // O runtime continua `.js`. Não emitimos nada: isto é um portão de
+    // checagem, não um passo de build — o Vite/esbuild segue compilando como
+    // sempre, sem saber que este arquivo existe.
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+
+    // `strictNullChecks` é o que realmente paga aqui: a resposta da API tem
+    // campo opcional (`nextCursor`, `reason`, `conversation`), e é justamente
+    // ler `.x` de algo nulo que quebra a tela com dado real.
+    "strict": true,
+    // Mas NÃO exigimos anotação em tudo: o código já existe e é JS idiomático
+    // do Chatwoot. Parâmetro sem tipo é permitido; tipo ERRADO não é.
+    "noImplicitAny": false,
+
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  // Só a camada de dados. Os `.vue` ficam de fora porque `tsc` não lê SFC —
+  // checá-los exigiria `vue-tsc`, que é outra dependência e outra decisão.
+  // Os `specs/` também ficam de fora: importam `.vue`.
+  "include": ["**/*.js", "**/*.d.ts"],
+  "exclude": ["specs/**", "**/*.story.vue", "scripts/**"]
+}

@@ -43,8 +43,13 @@ export function agentsBaseUrl(config = window.chatwootConfig) {
 /**
  * @param {object} params
  * @param {string} params.path caminho a partir da raiz (ex.: `/api/v1/kanban/boards`)
- * @param {string} params.token `currentUser.access_token` do Chatwoot
- * @param {number|string} params.accountId conta aberta no Chatwoot
+ * @param {string|null} [params.token] `currentUser.access_token` do Chatwoot
+ * @param {number|string|null} [params.accountId] conta aberta no Chatwoot
+ * @param {typeof fetch} [params.fetchImpl] injetável no teste; em produção é o `fetch` global
+ * @param {ChatwootConfig} [params.config] injetável no teste; em produção é `window.chatwootConfig`
+ * @returns {Promise<any>} corpo JSON. `any` porque as rotas do Kanban ainda não
+ *   declaram resposta 2xx no `openapi.json` — ver `types/atriaApi.d.ts` e o
+ *   `[4.5:11a]`. Quem chama tipa o retorno; aqui não dá pra saber qual rota é.
  */
 export async function agentsGet({
   path,

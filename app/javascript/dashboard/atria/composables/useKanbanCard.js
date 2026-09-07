@@ -7,13 +7,21 @@
 import { ref } from 'vue';
 import { fetchKanbanCardDetail } from '../api/agentsApi';
 
+/**
+ * @param {object} [deps]
+ * @param {() => string|null} [deps.token] `currentUser.access_token` do Chatwoot
+ * @param {() => number|string|null} [deps.accountId] conta aberta no Chatwoot
+ * @param {(p: any) => Promise<any>} [deps.loadCard] troca a carga do cartão no teste
+ */
 export function useKanbanCard({
   token,
   accountId,
   loadCard = fetchKanbanCardDetail,
 } = {}) {
+  /** @type {import('vue').Ref<import('../types/atriaApi').KanbanCardDetail|null>} */
   const card = ref(null);
   const isLoading = ref(false);
+  /** @type {import('vue').Ref<Error|null>} */
   const error = ref(null);
 
   async function open(cardId) {
@@ -29,7 +37,7 @@ export function useKanbanCard({
         cardId,
       });
     } catch (err) {
-      error.value = err;
+      error.value = /** @type {Error} */ (err);
     } finally {
       isLoading.value = false;
     }
@@ -46,6 +54,7 @@ export function useKanbanCard({
 /**
  * Quem fez a transição, para a tela distinguir a IA de uma pessoa sem
  * re-derivar nome (o servidor já resolve `performedByLabel`).
+ * @param {unknown} performedBy prefixo `agent:` / `user:` / `system:` vindo do servidor
  * @returns {'agent'|'user'|'system'}
  */
 export function performedByKind(performedBy) {

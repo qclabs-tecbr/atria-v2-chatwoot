@@ -18,7 +18,10 @@
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "sync:i18n": "bin/sync_i18n_file_change"
+    "sync:i18n": "bin/sync_i18n_file_change",
+    "atria:types": "node app/javascript/dashboard/atria/scripts/generate-api-types.mjs",
+    "atria:types:check": "node app/javascript/dashboard/atria/scripts/generate-api-types.mjs --check",
+    "atria:typecheck": "tsc -p app/javascript/dashboard/atria/tsconfig.json"
   },
   "size-limit": [
     {
@@ -34,6 +37,7 @@
     "@amplitude/analytics-browser": "^2.11.10",
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
+    "@chatwoot/pico-search": "0.6.2",
     "@chatwoot/prosemirror-schema": "1.4.1",
     "@chatwoot/utils": "^0.0.57",
     "@chatwoot/viz": "^0.1.5",
@@ -48,7 +52,6 @@
     "@radix-ui/colors": "^3.0.0",
     "@rails/actioncable": "6.1.3",
     "@rails/ujs": "^7.1.400",
-    "@chatwoot/pico-search": "0.6.2",
     "@sentry/vue": "^8.55.0",
     "@sindresorhus/slugify": "2.2.1",
     "@tailwindcss/typography": "^0.5.19",
@@ -138,12 +141,14 @@
     "husky": "^7.0.0",
     "jsdom": "^27.2.0",
     "lint-staged": "^16.2.7",
+    "openapi-typescript": "7.5.2",
     "postcss": "^8.5.23",
     "postcss-preset-env": "^8.5.1",
     "prettier": "^3.3.3",
     "prosemirror-model": "^1.22.3",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.19",
+    "typescript": "5.6.2",
     "vite": "6.4.2",
     "vite-plugin-ruby": "^5.2.1",
     "vitest": "3.0.5"
